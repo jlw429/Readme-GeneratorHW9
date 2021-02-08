@@ -4,7 +4,7 @@ const util = require('util');
 
 const writeFileAsync = util.promisify(fs.writeFile);
 
-
+//Inquirer at work-
 function mdPrompt() {
   return inquirer.prompt([
     {
@@ -29,6 +29,12 @@ function mdPrompt() {
       name: 'usage',
     },
     {
+      type: 'checkbox',
+      message: 'Please select a license.',
+      choices: ['Apache', 'MIT', 'ISC', 'GNU GPLv3'],
+      name: 'license',
+    },
+    {
       type: 'input',
       message: 'Who contributed on this project?',
       name: 'contribution',
@@ -37,12 +43,6 @@ function mdPrompt() {
       type: 'input',
       message: 'what are the Test Instructions?',
       name: 'test',
-    },
-    {
-      type: 'checkbox',
-      message: 'Please select a license.',
-      choices: ['Apache', 'MIT', 'ISC', 'GNU GPLv3'],
-      name: 'license',
     },
     {
       type: 'input',
@@ -66,6 +66,8 @@ function generateMarkdown(response) {
   return `
 # ${response.title}
 
+![License](https://img.shields.io/badge/License-${response.license}-blue.svg "License Badge")
+
 # Table of Contents
 
 - [Description](#description)
@@ -77,9 +79,9 @@ function generateMarkdown(response) {
 - [License](#license) 
 - [Questions](#questions)
 
-## Description:
-![License](https://img.shields.io/badge/License-${response.license}-blue.svg "License Badge")
 
+
+## Description:
     ${response.description}
 ## Installation:
     ${response.installation}
@@ -97,20 +99,19 @@ function generateMarkdown(response) {
 - [License](https://opensource.org/licenses/${response.license})
 
 ## Questions:
-    For questions about the Generator you can go to my 
-    GitHub page at the following Link: 
+    For the source code, please consult my GitHub page at the following Link: 
 
 - [GitHub Profile](https://github.com/${response.username})
 
-For additional questions please reach out to my email at: ${response.email}.
+If you have questions, please email me at: ${response.email}.
 
-    Here is a video on how to work the application.
-- [Video](https://youtu.be/HQAggkj8EWs)
+    Video Explanation.
+- [Video]()
 
 `;
-}
+};
 
-// function to initialize program
+//function to initialize program
 async function init() {
   try {
     const response = await mdPrompt();
@@ -121,7 +122,8 @@ async function init() {
   } catch (err) {
     console.log(err);
   }
-}
+};
 
-// function call to initialize program
-init();
+// Call the function to initialize program
+
+init()
